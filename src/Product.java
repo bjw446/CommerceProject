@@ -3,14 +3,19 @@ public class Product {
     private int price;
     private String explain;
     private int stock;
+    private int count;
+    private int totalPrice;
 
     public Product(String name, int price, String explain, int stock) {
         this.name = name;
         this.price = price;
         this.explain = explain;
         this.stock = stock;
+        this.count = count;
     }
-
+    public int getTotalPrice() {
+        return price * count;
+    }
     public String getName() {
         return this.name;
     }
@@ -23,5 +28,13 @@ public class Product {
     public int getStock() {
         return this.stock;
     }
-
+    public int getCount() {
+        return this.count;
+    }
+    public void setCount(int count) {
+        this.count = count;
+    }
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
 }
