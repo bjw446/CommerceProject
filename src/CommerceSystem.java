@@ -87,7 +87,7 @@ public class CommerceSystem {
                             break;
                         case 5 :
                             cart.removeAll();
-                            return;
+                            break;
                         case 0 :
                             System.out.println("커머스 플랫폼을 종료합니다.");
                             menu = false;
@@ -97,6 +97,7 @@ public class CommerceSystem {
                 }
             }
         }
+        sc.close();
     }
 }
 
