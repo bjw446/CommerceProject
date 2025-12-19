@@ -9,6 +9,11 @@ public class Cart {
     Scanner sc = new Scanner(System.in);
 
     public void addProduct(Product product) {
+        if(product.getStock() <= 0) {
+            System.out.println(product.getName() + " 상품의 재고가 부족합니다.");
+            return;
+        }
+
         if(cart.containsKey(product.getName())){
             Product overlap = cart.get(product.getName());
             overlap.setCount(overlap.getCount() + 1);
