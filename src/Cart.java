@@ -8,7 +8,7 @@ public class Cart {
     private Map<String, Product> cart = new HashMap<>();
     Scanner sc = new Scanner(System.in);
 
-    public void addProduct(Product product) {
+    public void addCart(Product product) {
         if(product.getStock() <= 0) {
             System.out.println(product.getName() + " 상품의 재고가 부족합니다.");
             return;
@@ -22,6 +22,26 @@ public class Cart {
             cart.put(product.getName(), product);
         }
         System.out.println(product.getName() + " 장바구니에 추가 되었습니다.");
+    }
+    public void deleteCart(Product product) {
+        if(cart.isEmpty()) {
+            System.out.println("장바구니가 비어 있습니다.");
+            return;
+        }
+
+        if(cart.containsKey(product.getName())) {
+            Product overlap = cart.get(product.getName());
+            int afterCount = overlap.getCount() - 1;
+
+        if(afterCount <= 0) {
+            cart.remove(product.getName());
+        }else {
+            overlap.setCount(afterCount);
+        }
+        System.out.println("장바구니에서 " + product.getName() +" 상품이 삭제 되었습니다.");
+        } else {
+            System.out.println(product.getName() + " 상품은 장바구니에 없습니다.");
+        }
     }
     public void printCart() {
         if(cart.isEmpty()) {
@@ -79,5 +99,9 @@ public class Cart {
     }
     public void removeAll() {
         cart.clear();
+    }
+
+    public void setCart(Map<String, Product> cart) {
+        this.cart = cart;
     }
 }

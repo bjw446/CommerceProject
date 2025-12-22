@@ -1,17 +1,17 @@
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CommerceSystem {
 
     Cart cart = new Cart();
-    Category category = new Category();
+    Admin admin = new Admin(cart);
+    Category category = new Category(admin);
 
     public CommerceSystem() {
         category.cart = this.cart;
-        category.apparelProducts();
-        category.electronicsProducts();
-        category.foodProducts();
+        admin.apparelProducts();
+        admin.electronicsProducts();
+        admin.foodProducts();
     }
 
     public void start() {
@@ -25,6 +25,8 @@ public class CommerceSystem {
                 System.out.println("2. 의류");
                 System.out.println("3. 식품");
                 System.out.printf("%-1d. %-11s | %7s", 0, "종료", "프로그램 종료\n");
+                System.out.println("6. 관리자 모드");
+
 
                 int categoryMenu;
                 try {
@@ -44,6 +46,12 @@ public class CommerceSystem {
                     case 3 :
                         category.food();
                         break;
+                    case 6 :
+                        if(!admin.login()) {
+                            break;
+                        }
+                        admin.adminMenu();
+                        break;
                     case 0 :
                         System.out.println("커머스 플랫폼을 종료합니다.");
                         menu = false;
@@ -56,7 +64,8 @@ public class CommerceSystem {
                 System.out.println("1. 전자제품");
                 System.out.println("2. 의류");
                 System.out.println("3. 식품");
-                System.out.printf("%-1d. %-11s | %7s%n", 0, "종료", "프로그램 종료\n");
+                System.out.printf("%-1d. %-11s | %7s", 0, "종료", "프로그램 종료\n");
+                System.out.println("6. 관리자 모드");
 
                 System.out.println("[ 주문 관리 ]");
                 System.out.printf("%-1d. %-11s | %7s%n", 4, "장바구니 확인", "장바구니를 확인 후 주문합니다.");
@@ -88,6 +97,12 @@ public class CommerceSystem {
                         case 5 :
                             cart.removeAll();
                             break;
+                        case 6 :
+                        if(!admin.login()) {
+                            break;
+                        }
+                        admin.adminMenu();
+                        break;
                         case 0 :
                             System.out.println("커머스 플랫폼을 종료합니다.");
                             menu = false;
