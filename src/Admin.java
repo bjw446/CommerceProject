@@ -5,19 +5,22 @@ import java.util.Scanner;
 
 public class Admin {
 
+    // 제품별 List 생성
     private List<Product> food = new ArrayList<>();
     private List<Product> apparel = new ArrayList<>();
     private List<Product> electronics = new ArrayList<>();
     private String id;
     private String password;
     Scanner sc = new Scanner(System.in);
-    Cart cart;
+    Cart cart; // 장바구니 연결
 
+    // 생성자 장바구니 객체를 받아서 연결
     public Admin(Cart cart){
         this.id = "admin";
         this.password = "admin1234";
         this.cart = cart;
     }
+
 
     public void electronicsProducts(){
         electronics.add(new Product("Galaxy S24", 1200000, "최신 안드로이드 스마트폰", 50));
@@ -38,6 +41,7 @@ public class Admin {
         food.add(new Product("DaeCheon Tripe Seaweed 30g", 54000, "대천 곱창김 선물세트 30g 12개 묶음상품", 50));
     }
 
+    // 관리자 로그인 기능
     public boolean login() {
        for(int i = 0; i < 3; i++) {
            System.out.println("관리자 비밀번호를 입력해주세요.");
@@ -88,6 +92,7 @@ public class Admin {
             }
         }
     }
+    // 새로운 상품 추가 메서드
     public void addProduct() {
         String productName;
         int productPrice;
@@ -125,7 +130,10 @@ public class Admin {
                 System.out.println("위 정보로 상품을 추가 하시겠습니까?");
                 System.out.println("1. 확인    2. 취소");
                 choice2 = sc.nextInt();
+
+
                 if(choice2 == 1) {
+                    // 상품 리스트 별로 동일한 상품명 중복 조회
                     for (int i = 0; i < electronics.size(); i++) {
                         Product product = electronics.get(i);
                         if(productName.equals(product.getName())) {
@@ -174,6 +182,7 @@ public class Admin {
                 System.out.println("1. 확인    2. 취소");
                 choice2 = sc.nextInt();
                 if(choice2 == 1) {
+                    // 상품 리스트 별로 동일한 상품명 중복 조회
                     for (int i = 0; i < electronics.size(); i++) {
                         Product product = electronics.get(i);
                         if(productName.equals(product.getName())) {
@@ -222,6 +231,7 @@ public class Admin {
                 System.out.println("1. 확인    2. 취소");
                 choice2 = sc.nextInt();
                 if(choice2 == 1) {
+                    // 상품 리스트 별로 동일한 상품명 중복 조회
                     for (int i = 0; i < electronics.size(); i++) {
                         Product product = electronics.get(i);
                         if(productName.equals(product.getName())) {
@@ -257,6 +267,7 @@ public class Admin {
         }
     }
 
+    // 상품 수정 메서드
     public void editProduct() {
         while(true) {
             int choice = 0;
@@ -264,6 +275,7 @@ public class Admin {
             String productName = sc.nextLine();
             boolean equalsName = false;
 
+            // 상품 리스트 별로 상품명을 통한 탐색 후 수정
             for (int i = 0; i < apparel.size(); i++) {
                 Product product = apparel.get(i);
                 if(productName.equals(product.getName())) {
@@ -426,11 +438,13 @@ public class Admin {
         }
     }
 
+    // 상품 삭제 메서드
     public void deleteProduct() {
         System.out.print("삭제할 상품명을 입력해주세요 : ");
         String productName = sc.nextLine();
         boolean equalsName = false;
 
+        // 상품 리스트 별로 상품명을 통한 탐색 후 삭제
         for (int i = 0; i < apparel.size(); i++) {
             Product product = apparel.get(i);
             if(productName.equals(product.getName())) {
@@ -508,6 +522,7 @@ public class Admin {
         }
     }
 
+    // 전체 상품 출력 메서드
     public void printAllProucts(){
         System.out.println("[ 전체 상품 현황 ]");
         for (int i = 0; i < electronics.size(); i++) {

@@ -5,16 +5,16 @@ import java.util.stream.Collectors;
 
 public class Category {
 
-    Admin admin;
-    Cart cart = new Cart();
+    Admin admin; // 관리자 객체
+    Cart cart = new Cart(); // 장바구니 객체
     Scanner sc = new Scanner(System.in);
 
-
+    // 생성자 관리자 연결
     public Category(Admin admin) {
         this.admin = admin;
     }
 
-
+    // 전자제품 메뉴
     public void electronics() {
         System.out.println("[ 전자제품 카테고리 ]");
         System.out.println("1. 전체 상품 보기");
@@ -33,6 +33,7 @@ public class Category {
         }
         switch (menu) {
             case 1 :
+                // 반복문을 통한 배열 탐색 후 전체 상품 출력
                 for(int i = 0; i < admin.getElectronics().size(); i++){
                     Product product = admin.getElectronics().get(i);
                     System.out.printf("%-1d. %-15s | %,9d원 | %-1s | %-1s%n", i + 1, product.getName(), product.getPrice(), product.getExplain(), "재고 : " + product.getStock() + "개");
@@ -68,7 +69,7 @@ public class Category {
                     System.out.println("잘못된 입력입니다.");
                 }
                 break;
-            case 2 :
+            case 2 : // 필터 및 콜렉트를 통한 리스트 저장
                 List<Product> electronicFilter = admin.getElectronics().stream()
                         .filter(p -> p.getPrice() <= 1000000)
                         .collect(Collectors.toList());
@@ -99,7 +100,7 @@ public class Category {
                     System.out.println("잘못된 입력입니다.");
                 }
                 break;
-            case 3 :
+            case 3 : // 필터 및 콜렉트를 통한 리스트 저장
                 List<Product> electronicFilter2 = admin.getElectronics().stream()
                         .filter(p -> p.getPrice() > 1000000)
                         .collect(Collectors.toList());
@@ -138,6 +139,7 @@ public class Category {
         }
 
     }
+    // 의류 상품 메뉴
     public void apparel() {
         System.out.println("[ 의류 카테고리 ]");
         System.out.println("1. 전체 상품 보기");
@@ -154,6 +156,7 @@ public class Category {
             System.out.println("숫자만 입력 가능합니다.");
             sc.nextLine();
         }
+        // 반복문을 통한 배열 탐색 후 전체 상품 출력
         switch (menu) {
             case 1 :
                 for(int i = 0; i < admin.getApparel().size(); i++){
@@ -190,7 +193,7 @@ public class Category {
                     System.out.println("잘못된 입력입니다.");
                 }
                 break;
-            case 2 :
+            case 2 : // 필터 및 콜렉트를 통한 리스트 저장
                 List<Product> apparelFilter = admin.getApparel().stream()
                         .filter(p -> p.getPrice() <= 100000)
                         .collect(Collectors.toList());
@@ -221,7 +224,7 @@ public class Category {
                     System.out.println("잘못된 입력입니다.");
                 }
                 break;
-            case 3 :
+            case 3 : // 필터 및 콜렉트를 통한 리스트 저장
                 List<Product> apparelFilter2 = admin.getApparel().stream()
                         .filter(p -> p.getPrice() > 100000)
                         .collect(Collectors.toList());
@@ -258,6 +261,7 @@ public class Category {
         }
 
     }
+    // 식품 메뉴
     public void food() {
         System.out.println("[ 식품 카테고리 ]");
         System.out.println("1. 전체 상품 보기");
@@ -274,6 +278,7 @@ public class Category {
             System.out.println("숫자만 입력 가능합니다.");
             sc.nextLine();
         }
+        // 반복문을 통해 리스트 탐색 후 전체 상품 출력
         switch (menu) {
             case 1 :
                 for(int i = 0; i < admin.getFood().size(); i++){
@@ -311,7 +316,7 @@ public class Category {
                     System.out.println("잘못된 입력입니다.");
                 }
                 break;
-            case 2 :
+            case 2 : // 필터 및 콜렉트를 통한 리스트 저장
                 List<Product> foodFilter = admin.getFood().stream()
                         .filter(p -> p.getPrice() <= 50000)
                         .collect(Collectors.toList());
@@ -342,7 +347,7 @@ public class Category {
                     System.out.println("잘못된 입력입니다.");
                 }
                 break;
-            case 3 :
+            case 3 : // 필터 및 콜렉트를 통한 리스트 저장
                 List<Product> foodFilter2 = admin.getFood().stream()
                         .filter(p -> p.getPrice() > 50000)
                         .collect(Collectors.toList());

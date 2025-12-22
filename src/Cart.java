@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Cart {
 
+    // 상품명 기준으로 장바구니 관리
     private Map<String, Product> cart = new HashMap<>();
     Scanner sc = new Scanner(System.in);
 
@@ -12,16 +13,19 @@ public class Cart {
             System.out.println(product.getName() + " 상품의 재고가 부족합니다.");
             return;
         }
-
+        // 장바구니에 동일한 상품이 담기면 수량 증가
         if(cart.containsKey(product.getName())){
             Product overlap = cart.get(product.getName());
             overlap.setCount(overlap.getCount() + 1);
-        } else {
+        } else { // 새로운 상품이 담기면 새상품 추가
             product.setCount(1);
             cart.put(product.getName(), product);
         }
         System.out.println(product.getName() + " 장바구니에 추가 되었습니다.");
     }
+
+    // 관리자 모드에서 상품 삭제시 장바구니 상품 삭제를 위한 메서드 추가
+    // 장바구니에 삭제 기능을 추가 하게 되면 일반 및 관리자로 새로 나눈 후 이용
     public void deleteCart(Product product) {
         if(cart.isEmpty()) {
             System.out.println("장바구니가 비어 있습니다.");
@@ -32,6 +36,7 @@ public class Cart {
             Product overlap = cart.get(product.getName());
             int afterCount = overlap.getCount() - 1;
 
+        // 수량이 0 이하가 되면 제거
         if(afterCount <= 0) {
             cart.remove(product.getName());
         }else {
@@ -70,7 +75,7 @@ public class Cart {
             sc.nextLine();
 
         if (choice == 1) {
-            gradePayment();
+            gradePayment(); // 고객 등급별 할인 메서드
             int i = 0;
             for(String name : cart.keySet()) {
                 i++;
@@ -88,6 +93,7 @@ public class Cart {
         }
     }
 
+    // 고객 등급별 할인 메서드
     public void gradePayment() {
         System.out.println("고객 등급을 입력해주세요.");
         System.out.printf("%-13s : %6s%n","1. BRONZE", "0% 할인");
@@ -98,9 +104,10 @@ public class Cart {
         int choice = sc.nextInt();
         sc.nextLine();
         CustomerGrade gradeInt = CustomerGrade.fromInt(choice);
-        gradeTotalPrice(gradeInt);
+        gradeTotalPrice(gradeInt); // 고객 등급별 할인 적용된 결제 금액 계산 및 출력
     }
 
+    // 고객 등급별 할인 적용된 결제 금액 계산 및 출력
     public double gradeTotalPrice(CustomerGrade customerGrade) {
         double gradeTotal = 0;
         switch (customerGrade) {
