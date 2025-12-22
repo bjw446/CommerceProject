@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -67,31 +66,76 @@ public class Cart {
         System.out.printf("%-15s%n%,d원%n%n", "\n[ 총 주문 금액 ] ", totalPrice());
         System.out.println("1. 주문 확정      2. 메인으로 돌아가기");
         int choice = 0;
-        try {
             choice = sc.nextInt();
-        } catch (InputMismatchException e) {
-            System.out.println("숫자만 입력 가능합니다.");
             sc.nextLine();
+
+        if (choice == 1) {
+            gradePayment();
+            int i = 0;
+            for(String name : cart.keySet()) {
+                i++;
+                Product product = cart.get(name);
+                int beforeStock = product.getStock();
+                int afterStock = beforeStock - product.getCount();
+                product.setStock(afterStock);
+                System.out.printf("%-1d. %-30s %-1s %-1s %-1s%n", i, product.getName(), "재고가", beforeStock + "개 ->",afterStock + "개로 업데이트 되었습니다." );
+            }
+            removeAll();
+        }else if(choice == 2) {
+            return;
+        }else {
+            System.out.println("잘못된 입력 입니다.");
         }
-        switch (choice) {
-            case 1 :
-                System.out.printf("%-15s %,8d원%n", "주문이 완료되었습니다! 총 금액 :", totalPrice());
-                int i = 0;
-                for(String name : cart.keySet()) {
-                    i++;
-                    Product product = cart.get(name);
-                    int beforeStock = product.getStock();
-                    int afterStock = beforeStock - product.getCount();
-                    product.setStock(afterStock);
-                    System.out.printf("%-1d. %-30s %-1s %-1s %-1s%n", i, product.getName(), "재고가", beforeStock + "개 ->",afterStock + "개로 업데이트 되었습니다." );
-                }
-                removeAll();
+    }
+
+    public void gradePayment() {
+        System.out.println("고객 등급을 입력해주세요.");
+        System.out.printf("%-13s : %6s%n","1. BRONZE", "0% 할인");
+        System.out.printf("%-13s : %6s%n","2. SILVER", "5% 할인");
+        System.out.printf("%-13s : %6s%n","3. GOLD", "10% 할인");
+        System.out.printf("%-13s : %6s%n","4. PLATINUM", "15% 할인");
+
+        int choice = sc.nextInt();
+        sc.nextLine();
+        CustomerGrade gradeInt = CustomerGrade.fromInt(choice);
+        gradeTotalPrice(gradeInt);
+    }
+
+    public double gradeTotalPrice(CustomerGrade customerGrade) {
+        double gradeTotal = 0;
+        switch (customerGrade) {
+            case BRONZE:
+                gradeTotal = totalPrice();
+                System.out.println("주문이 완료되었습니다!");
+                System.out.printf("%-1s %,8d원%n","할인 전 금액 :", totalPrice());
+                System.out.printf("%-1s %,8d원%n", "BRONZE 등급 할인(0%) :", 0);
+                System.out.printf("%-1s %,.0f원%n", "최종 결제 금액 :", gradeTotal);
                 break;
-            case 2 :
-                return;
-            default :
-                System.out.println("잘못된 입력 입니다.");
+            case SILVER:
+                gradeTotal = totalPrice() - (totalPrice() * 0.05);
+                System.out.println("주문이 완료되었습니다!");
+                System.out.printf("%-1s %,8d원%n","할인 전 금액 :", totalPrice());
+                System.out.printf("%-1s -%,.0f원%n", "SILVER 등급 할인(5%) :", totalPrice()*0.05);
+                System.out.printf("%-1s %,.0f원%n", "최종 결제 금액 :", gradeTotal);
+                break;
+            case GOLD:
+                gradeTotal = totalPrice() - (totalPrice() * 0.1);
+                System.out.println("주문이 완료되었습니다!");
+                System.out.printf("%-1s %,8d원%n","할인 전 금액 :", totalPrice());
+                System.out.printf("%-1s -%,.0f원%n", "GOLD 등급 할인(10%) :", totalPrice()*0.1);
+                System.out.printf("%-1s %,.0f원%n", "최종 결제 금액 :", gradeTotal);
+                break;
+            case PLATINUM:
+                gradeTotal = totalPrice() - (totalPrice() * 0.15);
+                System.out.println("주문이 완료되었습니다!");
+                System.out.printf("%-1s %,8d원%n","할인 전 금액 :", totalPrice());
+                System.out.printf("%-1s -%,.0f원%n", "PLATINUM 등급 할인(15%) :", totalPrice()*0.15);
+                System.out.printf("%-1s %,.0f원%n", "최종 결제 금액 :", gradeTotal);
+                break;
+            default:
+                System.out.println("잘못된 입력입니다.");
         }
+        return gradeTotal;
     }
 
     public Map<String,Product> getCart() {
