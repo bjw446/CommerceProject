@@ -3,12 +3,14 @@ import java.util.Scanner;
 
 public class CommerceSystem {
 
-    Cart cart = new Cart();
-    Admin admin = new Admin(cart);
-    Category category = new Category(admin);
+    Cart cart = new Cart(); // 장바구니 객체
+    Admin admin = new Admin(cart); // 관리자 객체
+    Category category = new Category(admin); // 카테고리 객체
 
+    // 생성자 : 기본 상품 등록
     public CommerceSystem() {
-        category.cart = this.cart;
+        category.cart = this.cart; // 장바구니 연결
+        // 상품 목록 초기화
         admin.apparelProducts();
         admin.electronicsProducts();
         admin.foodProducts();
@@ -19,6 +21,7 @@ public class CommerceSystem {
 
         boolean menu = true;
         while(menu) {
+            // 장바구니가 비어있을 때 메뉴
             if(cart.getCart().isEmpty()) {
                 System.out.println("[ 실시간 커머스 플랫폼 - 전자제품 ]");
                 System.out.println("1. 전자제품");
@@ -59,6 +62,7 @@ public class CommerceSystem {
                     default :
                         System.out.println("잘못된 메뉴 선택입니다. 다시 입력 해주세요.\n");
                 }
+                // 장바구니에 상품이 담겨 있을 때 메뉴
             }else {
                 System.out.println("[ 실시간 커머스 플랫폼 - 전자제품 ]");
                 System.out.println("1. 전자제품");
